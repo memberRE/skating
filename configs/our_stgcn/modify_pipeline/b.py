@@ -11,7 +11,7 @@ model = dict(
 dataset_type = 'PoseDataset'
 ann_file = '/home/JJ_Group/cheny/pyskl/train.pkl'
 train_pipeline = [
-    dict(type='PreNormalize2D'),
+    # dict(type='PreNormalize2D'),
     dict(type='GenSkeFeat', dataset='coco', feats=['b']),
     dict(type='UniformSample', clip_len=100),
     dict(type='PoseDecode'),
@@ -20,7 +20,7 @@ train_pipeline = [
     dict(type='ToTensor', keys=['keypoint'])
 ]
 val_pipeline = [
-    dict(type='PreNormalize2D'),
+    # dict(type='PreNormalize2D'),
     dict(type='GenSkeFeat', dataset='coco', feats=['b']),
     dict(type='UniformSample', clip_len=100, num_clips=1, test_mode=True),
     dict(type='PoseDecode'),
@@ -29,7 +29,7 @@ val_pipeline = [
     dict(type='ToTensor', keys=['keypoint'])
 ]
 test_pipeline = [
-    dict(type='PreNormalize2D'),
+    # dict(type='PreNormalize2D'),
     dict(type='GenSkeFeat', dataset='coco', feats=['b']),
     dict(type='UniformSample', clip_len=100, num_clips=10, test_mode=True),
     dict(type='PoseDecode'),
