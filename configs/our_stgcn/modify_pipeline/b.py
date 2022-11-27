@@ -1,3 +1,4 @@
+clip_len = 1500
 model = dict(
     type='RecognizerGCN',
     backbone=dict(
@@ -5,7 +6,7 @@ model = dict(
         gcn_adaptive='init',
         gcn_with_res=True,
         tcn_type='mstcn',
-        graph_cfg=dict(layout='nturgb+d', mode='spatial')),
+        graph_cfg=dict(layout='skating', mode='spatial')),
     cls_head=dict(type='GCNHead', num_classes=30, in_channels=256))
 
 dataset_type = 'PoseDataset'
@@ -13,7 +14,7 @@ ann_file = '/home/JJ_Group/cheny/pyskl/train.pkl'
 train_pipeline = [
     # dict(type='PreNormalize2D'),
     dict(type='GenSkeFeat', dataset='coco', feats=['b']),
-    dict(type='UniformSample', clip_len=100),
+    dict(type='UniformSample', clip_len=clip_len),
     dict(type='PoseDecode'),
     dict(type='FormatGCNInput', num_person=1),
     dict(type='Collect', keys=['keypoint', 'label'], meta_keys=[]),
@@ -22,7 +23,7 @@ train_pipeline = [
 val_pipeline = [
     # dict(type='PreNormalize2D'),
     dict(type='GenSkeFeat', dataset='coco', feats=['b']),
-    dict(type='UniformSample', clip_len=100, num_clips=1, test_mode=True),
+    dict(type='UniformSample', clip_len=clip_len, num_clips=1, test_mode=True),
     dict(type='PoseDecode'),
     dict(type='FormatGCNInput', num_person=1),
     dict(type='Collect', keys=['keypoint', 'label'], meta_keys=[]),
@@ -31,7 +32,7 @@ val_pipeline = [
 test_pipeline = [
     # dict(type='PreNormalize2D'),
     dict(type='GenSkeFeat', dataset='coco', feats=['b']),
-    dict(type='UniformSample', clip_len=100, num_clips=10, test_mode=True),
+    dict(type='UniformSample', clip_len=clip_len, num_clips=1, test_mode=True),
     dict(type='PoseDecode'),
     dict(type='FormatGCNInput', num_person=1),
     dict(type='Collect', keys=['keypoint', 'label'], meta_keys=[]),
@@ -49,15 +50,15 @@ data = dict(
     test=dict(type=dataset_type, ann_file=ann_file, pipeline=test_pipeline, split='val'))
 
 # optimizer
-optimizer = dict(type='SGD', lr=0.1, momentum=0.9, weight_decay=0.0005, nesterov=True)
+optimizer = dict(type='SGD', lr=0.2, momentum=0.9, weight_decay=0.0005, nesterov=True)
 optimizer_config = dict(grad_clip=None)
 # learning policy
 lr_config = dict(policy='CosineAnnealing', min_lr=0, by_epoch=False)
-total_epochs = 16
+total_epochs = 32
 checkpoint_config = dict(interval=1)
 evaluation = dict(interval=1, metrics=['top_k_accuracy'])
 log_config = dict(interval=100, hooks=[dict(type='TextLoggerHook'), dict(type='TensorboardLoggerHook') ])
 
 # runtime settings
 log_level = 'INFO'
-work_dir = '/home/JJ_Group/cheny/pyskl/configs/stgcn++/stgcn++_ntu60_xsub_hrnet/b'
+work_dir = '/home/JJ_Group/cheny/pyskl/configs/our_stgcn/modify_pipeline/b'
