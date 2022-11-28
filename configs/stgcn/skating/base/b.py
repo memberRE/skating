@@ -2,10 +2,7 @@ model = dict(
     type='RecognizerGCN',
     backbone=dict(
         type='STGCN',
-        gcn_adaptive='init',
-        gcn_with_res=True,
-        tcn_type='mstcn',
-        graph_cfg=dict(layout='nturgb+d', mode='spatial')
+        graph_cfg=dict(layout='skating', mode='stgcn_spatial')
     ),
     cls_head=dict(type='GCNHead', num_classes=30, in_channels=256)
 )
