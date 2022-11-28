@@ -82,20 +82,32 @@ class CrossEntropyLoss(BaseWeightedLoss):
         return loss_cls
 
 @LOSSES.register_module()
-class FocusLoss(BaseWeightedLoss):
-    """Focus Loss.
+class FocalLoss(BaseWeightedLoss):
+    """Focal loss.
 
     Args:
-        alpha (float): The alpha for calculating the modulating factor.
+        use_sigmoid (bool): Whether the prediction uses sigmoid of softmax.
+            Default: True.
         gamma (float): The gamma for calculating the modulating factor.
+            Default: 2.0.
+        alpha (float | list | tuple): A balanced form for Focal Loss.
+            Default: 0.25.
         reduction (str): Options are "none", "mean" and "sum".
+            Default: 'mean'.
         loss_weight (float): Weight of loss. Default: 1.0.
     """
 
-    def __init__(self, alpha=2.0, gamma=4.0, reduction='mean', loss_weight=1.0):
-        super(FocusLoss, self).__init__(loss_weight=loss_weight)
-        self.alpha = alpha
+    def __init__(self,
+                 use_sigmoid=True,
+                 gamma=2.0,
+                 alpha=0.25,
+                 reduction='mean',
+                 loss_weight=1.0):
+        super(FocalLoss, self).__init__(loss_weight=loss_weight)
+        assert use_sigmoid is True, 'Only sigmoid focal loss supported now.'
+        self.use_sigmoid = use_sigmoid
         self.gamma = gamma
+        self.alpha = alpha
         self.reduction = reduction
 
     def _forward(self, pred, target):
@@ -108,17 +120,22 @@ class FocusLoss(BaseWeightedLoss):
         Returns:
             torch.Tensor: The calculated loss
         """
-        pred_sigmoid = pred.sigmoid()
-        target = target.type_as(pred)
-        pt = (1 - pred_sigmoid) * target + pred_sigmoid * (1 - target)
-        focal_weight = (self.alpha * target + (1 - self.alpha) *
-                        (1 - target)) * pt.pow(self.gamma)
-        loss = F.binary_cross_entropy_with_logits(
-            pred, target, reduction='none') * focal_weight
+        if self.use_sigmoid:
+            pred_sigmoid = pred.sigmoid()
+            target = target.type_as(pred)
+            pt = (1 - pred_sigmoid) * target + pred_sigmoid * (1 - target)
+            focal_weight = (self.alpha * target + (1 - self.alpha) *
+                            (1 - target)) * pt.pow(self.gamma)
+            loss = F.binary_cross_entropy_with_logits(
+                pred, target, reduction='none') * focal_weight
+        else:
+            raise NotImplementedError
+
         if self.reduction == 'mean':
             loss = loss.mean()
         elif self.reduction == 'sum':
             loss = loss.sum()
+
         return loss
 
 @LOSSES.register_module()
