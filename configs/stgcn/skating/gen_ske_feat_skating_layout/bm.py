@@ -8,10 +8,10 @@ model = dict(
 )
 
 dataset_type = 'PoseDataset'
-ann_file = 'data/train_val.pkl'
+ann_file = 'data/train.pkl'
 train_pipeline = [
     dict(type='PreNormalize2D'),
-    dict(type='GenSkeFeat', dataset='coco', feats=['j']),
+    dict(type='GenSkeFeat', dataset='skating', feats=['bm']),
     dict(type='UniformSample', clip_len=100),
     dict(type='PoseDecode'),
     dict(type='FormatGCNInput', num_person=1),
@@ -20,7 +20,7 @@ train_pipeline = [
 ]
 val_pipeline = [
     dict(type='PreNormalize2D'),
-    dict(type='GenSkeFeat', dataset='coco', feats=['j']),
+    dict(type='GenSkeFeat', dataset='skating', feats=['bm']),
     dict(type='UniformSample', clip_len=100, num_clips=1, test_mode=True),
     dict(type='PoseDecode'),
     dict(type='FormatGCNInput', num_person=1),
@@ -29,7 +29,7 @@ val_pipeline = [
 ]
 test_pipeline = [
     dict(type='PreNormalize2D'),
-    dict(type='GenSkeFeat', dataset='coco', feats=['j']),
+    dict(type='GenSkeFeat', dataset='skating', feats=['bm']),
     dict(type='UniformSample', clip_len=100, num_clips=10, test_mode=True),
     dict(type='PoseDecode'),
     dict(type='FormatGCNInput', num_person=1),
@@ -61,4 +61,4 @@ log_config = dict(interval=100, hooks=[dict(type='TextLoggerHook'), dict(type='T
 
 # runtime settings
 log_level = 'INFO'
-work_dir = './work_dirs/stgcn/j'
+work_dir = './work_dirs/stgcn/bm'

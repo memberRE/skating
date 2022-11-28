@@ -8,7 +8,7 @@ model = dict(
 )
 
 dataset_type = 'PoseDataset'
-ann_file = 'data/train.pkl'
+ann_file = 'data/train_val.pkl'
 train_pipeline = [
     dict(type='PreNormalize2D'),
     dict(type='GenSkeFeat', dataset='coco', feats=['bm']),

@@ -8,10 +8,10 @@ model = dict(
 )
 
 dataset_type = 'PoseDataset'
-ann_file = 'data/train_val.pkl'
+ann_file = 'data/train.pkl'
 train_pipeline = [
     dict(type='PreNormalize2D'),
-    dict(type='GenSkeFeat', dataset='coco', feats=['j']),
+    dict(type='GenSkeFeat', dataset='skating', feats=['jm']),
     dict(type='UniformSample', clip_len=100),
     dict(type='PoseDecode'),
     dict(type='FormatGCNInput', num_person=1),
@@ -20,7 +20,7 @@ train_pipeline = [
 ]
 val_pipeline = [
     dict(type='PreNormalize2D'),
-    dict(type='GenSkeFeat', dataset='coco', feats=['j']),
+    dict(type='GenSkeFeat', dataset='skating', feats=['jm']),
     dict(type='UniformSample', clip_len=100, num_clips=1, test_mode=True),
     dict(type='PoseDecode'),
     dict(type='FormatGCNInput', num_person=1),
@@ -29,7 +29,7 @@ val_pipeline = [
 ]
 test_pipeline = [
     dict(type='PreNormalize2D'),
-    dict(type='GenSkeFeat', dataset='coco', feats=['j']),
+    dict(type='GenSkeFeat', dataset='skating', feats=['jm']),
     dict(type='UniformSample', clip_len=100, num_clips=10, test_mode=True),
     dict(type='PoseDecode'),
     dict(type='FormatGCNInput', num_person=1),
@@ -57,8 +57,8 @@ lr_config = dict(policy='CosineAnnealing', min_lr=0, by_epoch=False)
 total_epochs = 16
 checkpoint_config = dict(interval=1)
 evaluation = dict(interval=1, metrics=['top_k_accuracy'])
-log_config = dict(interval=100, hooks=[dict(type='TextLoggerHook'), dict(type='TensorboardLoggerHook')])
+log_config = dict(interval=100, hooks=[dict(type='TextLoggerHook')])
 
 # runtime settings
 log_level = 'INFO'
-work_dir = './work_dirs/stgcn/j'
+work_dir = './work_dirs/stgcn/jm'

@@ -8,7 +8,7 @@ model = dict(
 )
 
 dataset_type = 'PoseDataset'
-ann_file = 'data/train.pkl'
+ann_file = 'data/train_val.pkl'
 train_pipeline = [
     dict(type='PreNormalize2D'),
     dict(type='GenSkeFeat', dataset='coco', feats=['b']),
@@ -61,4 +61,4 @@ log_config = dict(interval=100, hooks=[dict(type='TextLoggerHook'), dict(type='T
 
 # runtime settings
 log_level = 'INFO'
-work_dir = './work_dirs/stgcn/j'
+work_dir = './work_dirs/stgcn/b'
