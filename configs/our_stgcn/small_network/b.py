@@ -6,11 +6,14 @@ model = dict(
         gcn_adaptive='init',
         gcn_with_res=True,
         tcn_type='mstcn',
+        num_stages=5,
+        inflate_stages=[2, 4],
+        down_stages=[2, 4],
         graph_cfg=dict(layout='skating', mode='spatial')),
     cls_head=dict(type='GCNHead', num_classes=30, in_channels=256))
 
 dataset_type = 'PoseDataset'
-ann_file = '/home/JJ_Group/cheny/pyskl/train3.pkl'
+ann_file = '/home/JJ_Group/cheny/pyskl/train2.pkl'
 train_pipeline = [
     # dict(type='PreNormalize2D'),
     dict(type='GenSkeFeat', dataset='skating', feats=['b']),
@@ -61,4 +64,4 @@ log_config = dict(interval=100, hooks=[dict(type='TextLoggerHook'), dict(type='T
 
 # runtime settings
 log_level = 'INFO'
-work_dir = '/home/JJ_Group/cheny/pyskl/configs/our_stgcn/modify_pipeline/b_fulldata'
+work_dir = '/home/JJ_Group/cheny/pyskl/configs/our_stgcn/small_network/b_modify'
