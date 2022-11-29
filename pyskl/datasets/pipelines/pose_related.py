@@ -265,7 +265,7 @@ class JointToBone:
     def __init__(self, dataset='nturgb+d', target='keypoint'):
         self.dataset = dataset
         self.target = target
-        if self.dataset not in ['nturgb+d', 'openpose', 'coco']:
+        if self.dataset not in ['nturgb+d', 'openpose', 'coco', 'skating']:
             raise ValueError(
                 f'The dataset type {self.dataset} is not supported')
         if self.dataset == 'nturgb+d':
@@ -278,6 +278,12 @@ class JointToBone:
         elif self.dataset == 'coco':
             self.pairs = ((0, 0), (1, 0), (2, 0), (3, 1), (4, 2), (5, 0), (6, 0), (7, 5), (8, 6), (9, 7), (10, 8),
                           (11, 0), (12, 0), (13, 11), (14, 12), (15, 13), (16, 14))
+        elif self.dataset == 'skating':
+            self.pairs = ((1, 8), (0, 1), (15, 0), (17, 15), (16, 0),
+                (18, 16), (5, 1), (6, 5), (7, 6), (2, 1), (3, 2),
+                (4, 3), (9, 8), (10, 9), (11, 10), (24, 11),
+                (22, 11), (23, 22), (12, 8), (13, 12), (14, 13),
+                (21, 14), (19, 14), (20, 19))
 
     def __call__(self, results):
 

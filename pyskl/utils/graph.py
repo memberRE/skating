@@ -74,7 +74,7 @@ class Graph:
         self.layout = layout
         self.mode = mode
 
-        assert layout in ['openpose', 'nturgb+d', 'coco']
+        assert layout in ['openpose', 'nturgb+d', 'coco', 'skating']
 
         self.get_layout(layout)
         self.hop_dis = get_hop_distance(self.num_node, self.inward, max_hop)
@@ -112,6 +112,16 @@ class Graph:
                 (1, 0), (3, 1), (2, 0), (4, 2)
             ]
             self.center = 0
+        elif layout == 'skating':
+            self.num_node = 25
+            self.inward = [
+                (1, 8), (0, 1), (15, 0), (17, 15), (16, 0),
+                (18, 16), (5, 1), (6, 5), (7, 6), (2, 1), (3, 2),
+                (4, 3), (9, 8), (10, 9), (11, 10), (24, 11),
+                (22, 11), (23, 22), (12, 8), (13, 12), (14, 13),
+                (21, 14), (19, 14), (20, 19)
+            ]
+            self.center = 1
         else:
             raise ValueError(f'Do Not Exist This Layout: {layout}')
         self.self_link = [(i, i) for i in range(self.num_node)]

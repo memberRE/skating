@@ -17,7 +17,7 @@ train_pipeline = [
     dict(type='GenSkeFeat', dataset='nturgb+d', feats=['bm']),
     dict(type='UniformSample', clip_len=100),
     dict(type='PoseDecode'),
-    dict(type='FormatGCNInput', num_person=2),
+    dict(type='FormatGCNInput', num_person=1),
     dict(type='Collect', keys=['keypoint', 'label'], meta_keys=[]),
     dict(type='ToTensor', keys=['keypoint'])
 ]
@@ -26,7 +26,7 @@ val_pipeline = [
     dict(type='GenSkeFeat', dataset='nturgb+d', feats=['bm']),
     dict(type='UniformSample', clip_len=100, num_clips=1, test_mode=True),
     dict(type='PoseDecode'),
-    dict(type='FormatGCNInput', num_person=2),
+    dict(type='FormatGCNInput', num_person=1),
     dict(type='Collect', keys=['keypoint', 'label'], meta_keys=[]),
     dict(type='ToTensor', keys=['keypoint'])
 ]
@@ -35,7 +35,7 @@ test_pipeline = [
     dict(type='GenSkeFeat', dataset='nturgb+d', feats=['bm']),
     dict(type='UniformSample', clip_len=100, num_clips=10, test_mode=True),
     dict(type='PoseDecode'),
-    dict(type='FormatGCNInput', num_person=2),
+    dict(type='FormatGCNInput', num_person=1),
     dict(type='Collect', keys=['keypoint', 'label'], meta_keys=[]),
     dict(type='ToTensor', keys=['keypoint'])
 ]

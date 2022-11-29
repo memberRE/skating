@@ -83,7 +83,7 @@ class STGCN(nn.Module):
         else:
             self.data_bn = nn.Identity()
 
-        lw_kwargs = [cp.deepcopy(kwargs) for i in range(num_stages)]
+        lw_kwargs = [cp.deepcopy(kwargs) for i in range(num_stages)]    # len = num_stages
         for k, v in kwargs.items():
             if isinstance(v, tuple) and len(v) == num_stages:
                 for i in range(num_stages):
