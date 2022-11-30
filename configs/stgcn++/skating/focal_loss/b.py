@@ -56,7 +56,7 @@ data = dict(
         times=5,
         dataset=dict(type=dataset_type, ann_file=ann_file, pipeline=train_pipeline, split='train')),
     val=dict(type=dataset_type, ann_file=ann_file, pipeline=val_pipeline, split='val'),
-    test=dict(type=dataset_type, ann_file=ann_file, pipeline=test_pipeline, split='val'))
+    test=dict(type=dataset_type, ann_file=ann_file, pipeline=test_pipeline, split='test'))
 
 # optimizer
 optimizer = dict(type='SGD', lr=0.2, momentum=0.9, weight_decay=0.0005, nesterov=True)
