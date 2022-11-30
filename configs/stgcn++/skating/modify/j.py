@@ -10,7 +10,7 @@ model = dict(
     cls_head=dict(type='GCNHead', num_classes=30, in_channels=256))
 
 dataset_type = 'PoseDataset'
-ann_file = 'data/train3.pkl'
+ann_file = 'data/train_test.pkl'
 train_pipeline = [
     # dict(type='PreNormalize2D'),
     dict(type='GenSkeFeat', dataset='skating', feats=['j']),
