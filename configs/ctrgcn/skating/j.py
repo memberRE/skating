@@ -3,6 +3,7 @@ model = dict(
     type='RecognizerGCN',
     backbone=dict(
 		type='CTRGCN',
+        num_person=1,
         graph_cfg=dict(layout='skating', mode='spatial')
     ),
     cls_head=dict(
