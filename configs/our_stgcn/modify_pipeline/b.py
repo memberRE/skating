@@ -1,3 +1,6 @@
+import os
+
+
 clip_len = 1000
 model = dict(
     type='RecognizerGCN',
@@ -10,7 +13,7 @@ model = dict(
     cls_head=dict(type='GCNHead', num_classes=30, in_channels=256))
 
 dataset_type = 'PoseDataset'
-ann_file = '/home/JJ_Group/cheny/pyskl/train3.pkl'
+ann_file = os.environ['PWD'] + '/train3.pkl'
 train_pipeline = [
     # dict(type='PreNormalize2D'),
     dict(type='GenSkeFeat', dataset='skating', feats=['b']),
@@ -61,4 +64,4 @@ log_config = dict(interval=100, hooks=[dict(type='TextLoggerHook'), dict(type='T
 
 # runtime settings
 log_level = 'INFO'
-work_dir = '/home/JJ_Group/cheny/pyskl/configs/our_stgcn/modify_pipeline/b_fulldata'
+work_dir = os.environ['PWD'] + '/configs/our_stgcn/modify_pipeline/b'
