@@ -2,21 +2,24 @@ import os
 
 
 clip_len = 1000
+
 model = dict(
     type='RecognizerGCN',
     backbone=dict(
-        type='STGCN',
+        type='AAGCN',
         gcn_adaptive='init',
-        gcn_with_res=True,
         tcn_type='mstcn',
-        num_stages=5,
+        data_bn_type='VC',
+
+        num_stages=4,
         inflate_stages=[2, 4],
         down_stages=[2, 4],
+
         graph_cfg=dict(layout='skating', mode='spatial')),
     cls_head=dict(type='GCNHead', num_classes=30, in_channels=256))
 
 dataset_type = 'PoseDataset'
-ann_file = os.environ['PWD'] + '/train3.pkl'
+ann_file = 'train3.pkl'
 train_pipeline = [
     # dict(type='PreNormalize2D'),
     dict(type='GenSkeFeat', dataset='skating', feats=['b']),
@@ -38,7 +41,7 @@ val_pipeline = [
 test_pipeline = [
     # dict(type='PreNormalize2D'),
     dict(type='GenSkeFeat', dataset='skating', feats=['b']),
-    dict(type='UniformSample', clip_len=clip_len, num_clips=4, test_mode=True),
+    dict(type='UniformSample', clip_len=clip_len, num_clips=8, test_mode=True),
     dict(type='PoseDecode'),
     dict(type='FormatGCNInput', num_person=1),
     dict(type='Collect', keys=['keypoint', 'label'], meta_keys=[]),
@@ -67,4 +70,4 @@ log_config = dict(interval=100, hooks=[dict(type='TextLoggerHook'), dict(type='T
 
 # runtime settings
 log_level = 'INFO'
-work_dir = os.environ['PWD'] + '/configs/our_stgcn/small_network/b'
+work_dir = 'work_dirs/aagcn/skating/b/'

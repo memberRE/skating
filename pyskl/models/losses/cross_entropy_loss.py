@@ -120,6 +120,12 @@ class FocalLoss(BaseWeightedLoss):
         Returns:
             torch.Tensor: The calculated loss
         """
+
+        if len(target.shape) == 1:
+            target_new = torch.zeros_like(pred)
+            target_new[torch.arange(target.shape[0]), target] = 1
+            target = target_new
+
         if self.use_sigmoid:
             pred_sigmoid = pred.sigmoid()
             target = target.type_as(pred)

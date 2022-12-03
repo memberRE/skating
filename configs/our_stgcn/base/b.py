@@ -1,3 +1,6 @@
+import os
+
+
 model = dict(
     type='RecognizerGCN',
     backbone=dict(
@@ -9,7 +12,7 @@ model = dict(
     cls_head=dict(type='GCNHead', num_classes=30, in_channels=256))
 
 dataset_type = 'PoseDataset'
-ann_file = '/home/JJ_Group/cheny/pyskl/train.pkl'
+ann_file = os.environ['PWD'] + '/train3.pkl'
 train_pipeline = [
     dict(type='PreNormalize2D'),
     dict(type='GenSkeFeat', dataset='coco', feats=['b']),
@@ -60,4 +63,5 @@ log_config = dict(interval=100, hooks=[dict(type='TextLoggerHook'), dict(type='T
 
 # runtime settings
 log_level = 'INFO'
-work_dir = '/home/JJ_Group/cheny/pyskl/configs/stgcn++/stgcn++_ntu60_xsub_hrnet/b'
+# work_dir = '/home/JJ_Group/cheny/pyskl/configs/stgcn++/stgcn++_ntu60_xsub_hrnet/b'
+work_dir = os.environ['PWD'] + '/configs/our_stgcn/base/b'
