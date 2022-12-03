@@ -32,7 +32,7 @@ val_pipeline = [
 test_pipeline = [
     # dict(type='PreNormalize2D'),
     dict(type='GenSkeFeat', dataset='skating', feats=['b']),
-    dict(type='UniformSample', clip_len=clip_len, num_clips=4, test_mode=True),
+    dict(type='UniformSample', clip_len=clip_len, num_clips=5, test_mode=True),
     dict(type='PoseDecode'),
     dict(type='FormatGCNInput', num_person=1),
     dict(type='Collect', keys=['keypoint', 'label'], meta_keys=[]),
