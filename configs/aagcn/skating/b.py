@@ -4,6 +4,7 @@ model = dict(
     type='RecognizerGCN',
     backbone=dict(
         type='AAGCN',
+        num_person=1,
         graph_cfg=dict(layout='skating', mode='spatial')),
     cls_head=dict(type='GCNHead', num_classes=30, in_channels=256))
 
